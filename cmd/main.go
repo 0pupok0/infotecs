@@ -8,7 +8,7 @@ import (
 
 func main() {
 	log.Println("Initializing server...")
-	// Конфигурация сервера.
+	// Конфигурация сервера. Данные указаны для примера
 	cfg := config.ServerConfig{
 		// Хост и порт на котором будет запущен сервер
 		Host: "localhost",
