@@ -6,6 +6,8 @@ import (
 	"time"
 )
 
+// CreateWallet - метод Storage для создания кошелька со стандартными значениями полей
+// Возвращает экземпляр кошелька и ошибку
 func (s *Storage) CreateWallet() (models.Wallet, error) {
 	var id int
 	err := s.pool.QueryRow(context.Background(), `INSERT INTO wallets DEFAULT VALUES RETURNING id`).
@@ -13,6 +15,8 @@ func (s *Storage) CreateWallet() (models.Wallet, error) {
 	return models.Wallet{ID: id, Balance: 100}, err
 }
 
+// GetWalletByID - метод Storage для получения кошелька с данным номером
+// Возвращает экземпляр кошелька и ошибку
 func (s *Storage) GetWalletByID(id int) (models.Wallet, error) {
 	var wallet models.Wallet
 	err := s.pool.QueryRow(context.Background(),
@@ -21,6 +25,13 @@ func (s *Storage) GetWalletByID(id int) (models.Wallet, error) {
 	return wallet, err
 }
 
+// SubmitTransaction - метод Storage для проведения транзации
+// Принимает:
+// sender - экземпляр кошелька отправителя
+// receiver - экземпляр кошелька получателя
+// amount - сумма транзакции
+//
+// Возвращает ошибку
 func (s *Storage) SubmitTransaction(sender, receiver models.Wallet, amount float64) error {
 	_, err := s.pool.Query(context.Background(), `BEGIN TRANSACTION`)
 	if err != nil {
@@ -58,6 +69,9 @@ func (s *Storage) SubmitTransaction(sender, receiver models.Wallet, amount float
 	return err
 }
 
+// GetHistory - метод Storage для получения истории входящих и исходящих транзакций
+// Принимает id - номер кошелька для получения истории
+// Возвращает массив транзакций и ошибку
 func (s *Storage) GetHistory(id int) ([]models.Transaction, error) {
 	var res []models.Transaction
 	rows, err := s.pool.Query(context.Background(),

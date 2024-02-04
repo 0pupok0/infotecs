@@ -8,16 +8,20 @@ import (
 
 func main() {
 	log.Println("Initializing server...")
+	// Конфигурация сервера.
 	cfg := config.ServerConfig{
-		Host:   "localhost",
-		Port:   "8081",
+		// Хост и порт на котором будет запущен сервер
+		Host: "localhost",
+		Port: "8081",
+		// Данные для подключения к БД
 		DbName: "postgres",
 		DbHost: "localhost",
 		DbPort: "5433",
 		DbUser: "kl",
 		DbPass: "password",
-		Cert:   "localhost.crt",
-		Key:    "localhost.key",
+		// Сертификат SSL для HTTPS подключения (оставить пустыми для HTTP)
+		Cert: "localhost.crt",
+		Key:  "localhost.key",
 	}
 	err := server.Start(cfg)
 	if err != nil {

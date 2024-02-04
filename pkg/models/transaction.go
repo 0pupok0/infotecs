@@ -1,8 +1,13 @@
 package models
 
+// Transaction - модель данных, описывающая транзакцию
 type Transaction struct {
-	From   int
-	To     int
+	// From - номер кошелька отправителя
+	From int
+	// To - номер кошелька получателя
+	To int
+	// Amount - сумма транзакции
 	Amount float64
-	Time   string
+	// Time - время проыедения транзакции
+	Time string
 }

@@ -7,11 +7,13 @@ import (
 	"sync"
 )
 
+// Storage модель для общения с БД
 type Storage struct {
 	mutex *sync.Mutex
 	pool  *pgxpool.Pool
 }
 
+// New - метод создания экземпляра Storage
 func New(conn string) (*Storage, error) {
 	p, err := pgxpool.Connect(context.Background(), conn)
 	if err != nil {
@@ -20,6 +22,7 @@ func New(conn string) (*Storage, error) {
 	return &Storage{mutex: &sync.Mutex{}, pool: p}, nil
 }
 
+// CreateTables - функция для создания пустых таблиц БД
 func (s *Storage) CreateTables() error {
 	_, err := s.pool.Query(context.Background(), `
 		CREATE TABLE IF NOT EXISTS wallets (

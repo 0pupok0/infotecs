@@ -16,6 +16,7 @@ type API struct {
 	serverAddress string
 }
 
+// New - метод создания экземпляра API
 func New(cfg config.ServerConfig) (*API, error) {
 	db, err := storage.New(fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s",
 		cfg.DbHost,
@@ -38,6 +39,7 @@ func New(cfg config.ServerConfig) (*API, error) {
 	}, nil
 }
 
+// Setup - назначение хэндлеров для эндпоинтов
 func (api *API) Setup() error {
 	err := api.db.CreateTables()
 	if err != nil {
@@ -51,6 +53,7 @@ func (api *API) Setup() error {
 	return nil
 }
 
+// Serve - запуск API
 func (api *API) Serve() error {
 	if api.cert == "" || api.key == "" {
 		return http.ListenAndServe(api.serverAddress, api.router)

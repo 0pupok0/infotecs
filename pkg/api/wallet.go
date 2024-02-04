@@ -9,6 +9,8 @@ import (
 	"strconv"
 )
 
+// WalletCreateHandler - метод API для создания нового кошелька с 100 у.е. на балансе
+// Возвращает структуру нового кошелька
 func (api *API) WalletCreateHandler(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case http.MethodPost:
@@ -28,6 +30,14 @@ func (api *API) WalletCreateHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+// WalletGetHandler - метод API для получения данных о кошельке
+//
+// Прнимает walletID (в динамическом маршруте) - идентификационный номер кошелька
+// Возвращает структуру найденного кошелька
+//
+// Коды ошибок:
+// 400 - если не был передан walletID или он не является чилом
+// 404 - если кошелёк с таким id не был найден
 func (api *API) WalletGetHandler(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case http.MethodGet:
@@ -56,6 +66,16 @@ func (api *API) WalletGetHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+// SendHandler - метод API для перевода денежных средств с одного кошелька на другой
+//
+// Принимает:
+// walletID (в динамическом маршруте) - номер кошелька отправителя
+// To (в теле запроса) - номер кошелька получателя
+// Amount (в теле запроса) - сумма переводимых денежных средств
+//
+// Коды ошибок:
+// 404 - Исходящий кошелек не найден
+// 400 - Целевой кошелек не найден или на исходящем нет нужной суммы
 func (api *API) SendHandler(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case http.MethodPost:
@@ -99,6 +119,13 @@ func (api *API) SendHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+// HistoryHandler - метод API для получения истории входящих и исходящих транзакций
+// Принимает walletID (в динамическом маршруте) - номер кошелька
+// Возвращает массив транзакций связанных с этим кошельком
+//
+// Коды ошибок:
+// 400 - если не был передан walletID или он не является чилом
+// 404 - если кошелёк с таким id не был найден
 func (api *API) HistoryHandler(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case http.MethodGet:
