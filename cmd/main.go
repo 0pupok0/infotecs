@@ -6,6 +6,7 @@ import (
 	"log"
 )
 
+// Ссылка на GitHub: https://github.com/0pupok0/infotecs/tree/main
 func main() {
 	log.Println("Initializing server...")
 	// Конфигурация сервера. Данные указаны для примера
